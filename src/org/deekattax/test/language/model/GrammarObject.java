@@ -31,11 +31,6 @@ public class GrammarObject {
 	private GrammarType type;
 	
 	/**
-	 * Contains a raw structure split as the sequential, fixed items in a rule
-	 */
-	private List<String> structure = new ArrayList<String>();
-	
-	/**
 	 * Contains a list of words among a category as defined by the corresponding rule
 	 */
 	private List<String> wordlist = new ArrayList<String>();
@@ -146,24 +141,12 @@ public class GrammarObject {
 	public String toString() {
 
 		return "GrammarObject [name=" + name 
-				+ (structure.isEmpty() ? ", "+ Tools.LB + "rawStructure=" + rawStructure : "")
+				+ (!(hasRandomSubRules() && hasFixedSubRules()) ? ", "+ Tools.LB + "rawStructure=" + rawStructure : "")
 				+ (type != null? ", " + Tools.LB + "type=" + type: "")
-				+ (!structure.isEmpty() ? ", " + Tools.LB + "structure=" + structure : "")
-				+ (!subRules.get(true).isEmpty() ? ", " + Tools.LB + "fixedSubrules=" + subRules.get(true): "")
-				+ (!subRules.get(false).isEmpty() ? ", " + Tools.LB + "randomSubrules=" + subRules.get(false): "")
+				+ (hasFixedSubRules() ? ", " + Tools.LB + "fixedSubrules=" + getFixedSubRules(): "")
+				+ (hasRandomSubRules() ? ", " + Tools.LB + "randomSubrules=" + getRandomSubRules(): "")
 				+ (!wordlist.isEmpty() ? ", " + Tools.LB + "wordlist=" + wordlist: "") + "]"+ Tools.LB + Tools.LB;
 	}
-
-
-	public List<String> getStructure() {
-		return structure;
-	}
-
-
-	public void setStructure(List<String> structurre) {
-		this.structure = structurre;
-	}
-
 
 	public Map<Boolean, List<String>> getSubRules() {
 		return subRules;
@@ -182,7 +165,7 @@ public class GrammarObject {
 		return subRules.get(true);
 	}
 	
-	public boolean hasFixedRules() {
+	public boolean hasFixedSubRules() {
 		return !getFixedSubRules().isEmpty();
 	}
 	

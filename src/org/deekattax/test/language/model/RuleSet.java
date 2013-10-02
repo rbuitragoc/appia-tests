@@ -59,15 +59,15 @@ public class RuleSet {
 		return null;
 	}
 	
-	public GrammarObject getRule(String name) {
+	GrammarObject getRule(String name) {
 		return rules.get(name);
 	}
 	
-	public void addRule(GrammarObject object) {
+	private void addRule(GrammarObject object) {
 		rules.put(object.getName(), object);
 	}
 	
-	public String addRule(String line) {
+	private String addRule(String line) {
 		if (line == null) {
 			return ErrorHandler.handle("Null line!");
 		}
@@ -125,7 +125,7 @@ public class RuleSet {
 					buf.append(generate(applyThisRule, tools));
 				} 
 				
-				if (rule.hasFixedRules()) {
+				if (rule.hasFixedSubRules()) {
 					for (String subRule: rule.getFixedSubRules()) {
 						if (fromRawItem(subRule).equals(LB)) {
 							return appendLineBreak(subRule, buf).toString();
