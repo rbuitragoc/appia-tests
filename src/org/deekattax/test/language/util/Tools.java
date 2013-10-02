@@ -13,11 +13,12 @@ import org.apache.commons.io.FileUtils;
 public class Tools {
 
   private Map<String, List<String>> words = new HashMap<String, List<String>>();
+  public static final String LB = System.getProperty("line.separator");
 
   public Tools() {
     try {
-      for (WordList enumItem: WordList.values()) {
-        if (!enumItem.equals(WordList.end))
+      for (WordListEnumeration enumItem: WordListEnumeration.values()) {
+        if (!enumItem.equals(WordListEnumeration.end))
           loadDict(enumItem);
       }
     } catch (IOException e) {
@@ -25,30 +26,38 @@ public class Tools {
     }
   }
   
-  private void loadDict(WordList dict) throws IOException {
+  private void loadDict(WordListEnumeration dict) throws IOException {
     List<String> dictAsList = 
         FileUtils.readLines(new File("test/resources/" + dict.name() + ".dic"));
     words.put(dict.name(), dictAsList);
   }
 
-  public String generateRandomWord(WordList list) {
+  public String generateRandomWord(WordListEnumeration list) {
     Random r = new SecureRandom();
     List<String> dict = words.get(list.name()); 
     return dict.get(r.nextInt(dict.size()));
   }
+  
+  public String generateRandomWord(List<String> list) {
+	  Random r = new SecureRandom();
+	  return list.get(r.nextInt(list.size()));
+  }
 
-  public WordList getRandomWordList(WordList ... lists) {
-    WordList selectedDict = lists[getRandomFromAvailableChoices(lists)];
+  public WordListEnumeration getRandomWordList(WordListEnumeration ... lists) {
+    WordListEnumeration selectedDict = lists[getRandomFromAvailableChoices(lists.length)];
     return selectedDict;
   }
   
-  public int getRandomFromAvailableChoices(WordList ...lists) {
-    if (lists == null) return 0;
-    Random r = new SecureRandom();
-    return r.nextInt(lists.length);
+  public List<String> getRandomWordList(List<String>... lists) {
+	  return lists[getRandomFromAvailableChoices(lists.length)];
+  }
+  
+  public int getRandomFromAvailableChoices(int choicesCount) {
+	Random r = new SecureRandom();
+	return r.nextInt(choicesCount);
   }
 
-  public String generateRandomName(WordList list) {
+  public String generateRandomName(WordListEnumeration list) {
     String randomName = "";
     String randomWord = generateRandomWord(list);
     if (randomWord.length() > 1) {

@@ -23,7 +23,7 @@ public class ToolsTest {
 
 	@Test
 	public void testGenerateRandomWord() {
-		String randomWord = underTest.generateRandomWord(WordList.adjectives);
+		String randomWord = underTest.generateRandomWord(WordListEnumeration.adjectives);
 		System.out.println("JUnit testing testGenerateRandomWord - " + randomWord);
 		assertNotNull(randomWord);
 		assertTrue(randomWord.length() > 0);
@@ -31,7 +31,7 @@ public class ToolsTest {
 
 	@Test
 	public void testGenerateRandomName() {
-		String randomName = underTest.generateRandomName(WordList.prepositions);
+		String randomName = underTest.generateRandomName(WordListEnumeration.prepositions);
 		System.out.println("JUnit testing testGenerateRandomName - " + randomName);
 		assertNotNull(randomName);
 		assertTrue(randomName.length() > 0);
@@ -40,11 +40,11 @@ public class ToolsTest {
 	
 	@Test
 	public void testGetRandomFromAvailableChoices() {
-	  Set<WordList> matched  = Collections.synchronizedSet(new HashSet<WordList>());
+	  Set<WordListEnumeration> matched  = Collections.synchronizedSet(new HashSet<WordListEnumeration>());
 	  
 	  // we give enough chances for the random seed to pick up all options, say 30 rounds
 	  for (int i = 0; i < 30; i++) {
-	    WordList dict = underTest.getRandomWordList(WordList.values());
+	    WordListEnumeration dict = underTest.getRandomWordList(WordListEnumeration.values());
 	    assertNotNull(dict);
 	    
 	    if (!matched.contains(dict)) {
@@ -53,7 +53,7 @@ public class ToolsTest {
 	  }
 	  
 	  // and in the end, we should have all options picked up
-	  assertEquals(WordList.values().length, matched.size());
+	  assertEquals(WordListEnumeration.values().length, matched.size());
 	  
 	}
 
